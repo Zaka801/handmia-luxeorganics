@@ -37,10 +37,10 @@
   --status-success: #4a4a4a;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
 }
 
 body {
@@ -49,30 +49,18 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  /* Base */
   background-color: #fffef2;
+
+  /* Desktop / default background */
   background-image: url('/leaf-bg.png');
   background-repeat: no-repeat;
-
-  /* Desktop behavior */
   background-size: cover;
   background-position: center top;
   background-attachment: fixed;
 
   color: var(--text-primary);
   line-height: 1.6;
-}
-
-/* MOBILE BACKGROUND */
-@media (max-width: 768px) {
-  body {
-    background-image: url('/leaf-bg-mobile.png');
-
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
-
-    background-attachment: scroll;
-  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -83,56 +71,48 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Typography Scale */
-
 .hero-large {
   font-size: clamp(32px, 5vw, 48px);
   font-weight: 600;
   line-height: 1.2;
   font-family: 'Playfair Display', serif;
 }
-
 .hero-medium {
   font-size: clamp(26px, 4vw, 36px);
   font-weight: 600;
   line-height: 1.3;
   font-family: 'Playfair Display', serif;
 }
-
 .heading-1 {
   font-size: clamp(28px, 3.5vw, 40px);
   font-weight: 600;
   line-height: 1.3;
   font-family: 'Playfair Display', serif;
 }
-
 .heading-2 {
   font-size: clamp(24px, 3vw, 32px);
   font-weight: 600;
   line-height: 1.3;
   font-family: 'Playfair Display', serif;
 }
-
 .heading-3 {
   font-size: clamp(20px, 2.5vw, 28px);
   font-weight: 600;
   line-height: 1.3;
   font-family: 'Playfair Display', serif;
 }
-
 .body-large {
   font-size: 18px;
   font-weight: 400;
   line-height: 1.7;
   font-family: 'Inter', sans-serif;
 }
-
 .body-regular {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.6;
   font-family: 'Inter', sans-serif;
 }
-
 .body-small {
   font-size: 14px;
   font-weight: 400;
@@ -142,7 +122,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Button Styles - Sharp Luxury Design */
-
 .btn-primary {
   background: transparent;
   color: var(--interactive-base);
@@ -162,14 +141,12 @@ h1, h2, h3, h4, h5, h6 {
   gap: 8px;
   letter-spacing: 0.5px;
 }
-
 .btn-primary:hover {
   background: var(--interactive-base);
   color: var(--bg-primary);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-
 .btn-gold {
   background: var(--gold-medium);
   color: #fff;
@@ -189,14 +166,12 @@ h1, h2, h3, h4, h5, h6 {
   gap: 8px;
   letter-spacing: 0.5px;
 }
-
 .btn-gold:hover {
   background: var(--gold-dark);
   border-color: var(--gold-dark);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(212,175,55,0.3);
 }
-
 .btn-secondary {
   background: none;
   border: none;
@@ -210,7 +185,6 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   transition: all 0.3s ease;
 }
-
 .btn-secondary:after {
   content: '';
   position: absolute;
@@ -221,65 +195,26 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--interactive-base);
   transition: width 0.5s ease-in-out;
 }
-
-.btn-secondary:hover:after {
-  width: calc(100% - 32px);
-}
+.btn-secondary:hover:after { width: calc(100% - 32px); }
 
 /* Layout Utilities */
+.container { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+@media (max-width: 1024px) { .container { padding: 0 24px; } }
+@media (max-width: 640px) { .container { padding: 0 16px; } }
 
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 40px;
-}
-
-@media (max-width: 1024px) {
-  .container {
-    padding: 0 24px;
-  }
-}
-
-@media (max-width: 640px) {
-  .container {
-    padding: 0 16px;
-  }
-}
-
-.section-padding {
-  padding: 100px 0;
-}
-
-.section-padding-small {
-  padding: 60px 0;
-}
-
+.section-padding { padding: 100px 0; }
+.section-padding-small { padding: 60px 0; }
 @media (max-width: 768px) {
-  .section-padding {
-    padding: 60px 0;
-  }
-  .section-padding-small {
-    padding: 40px 0;
-  }
+  .section-padding { padding: 60px 0; }
+  .section-padding-small { padding: 40px 0; }
 }
 
 /* Smooth Transitions */
-
-.transition-smooth {
-  transition: all 0.3s cubic-bezier(.645,.045,.355,1);
-}
-
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-}
+.transition-smooth { transition: all 0.3s cubic-bezier(.645,.045,.355,1); }
+.hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.hover-lift:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
 
 /* Placeholder Image Boxes */
-
 .placeholder-image {
   background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-subtle) 100%);
   border: 2px dashed var(--border-light);
@@ -294,8 +229,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Inter', sans-serif;
 }
 
-/* Product detail media */
-
+/* Product detail media: sticky on desktop, normal flow on mobile */
 .product-detail-media {
   height: 500px;
   border-radius: 16px;
@@ -306,10 +240,38 @@ h1, h2, h3, h4, h5, h6 {
   top: 100px;
 }
 
+/* -----------------------------
+   MOBILE FIXES (Option B)
+   ----------------------------- */
 @media (max-width: 768px) {
+  /* Use a separate background image designed for mobile */
+  body {
+    background-attachment: scroll;
+    background-image: url('/leaf-bg-mobile.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+  }
+
   .product-detail-media {
     position: relative;
     top: auto;
     height: 320px;
+  }
+}
+
+/* -----------------------------
+   CENTER ICONS in "Why Choose"
+   (Fix icons going to corner)
+   -----------------------------
+   This works if your icons are SVGs/images inside those blocks.
+   If still not fixed, tell me the component file and I’ll target the exact class.
+*/
+@media (max-width: 768px) {
+  .why-choose svg,
+  .why-choose img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
 }

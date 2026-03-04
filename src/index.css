@@ -39,28 +39,46 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html, body {
-  height: 100%;
-}
-
+/* ✅ BODY TEXT + DEFAULT COLOR (Background handled by body::before below) */
 body {
   margin: 0;
   font-family: 'Inter', 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* Base */
-  background-color: #fffef2;
-
-  /* Desktop / default background */
-  background-image: url('/leaf-bg.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center top;
-  background-attachment: fixed;
+  /* IMPORTANT: background is transparent because we render it with body::before */
+  background: transparent;
+  background-color: transparent;
 
   color: var(--text-primary);
   line-height: 1.6;
+
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ✅ GLOBAL BACKGROUND LAYER (shows on ALL pages/sections, desktop + mobile) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background-image: url("/leaf-bg.png"); /* desktop image */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+}
+
+/* ✅ Mobile uses different image */
+@media (max-width: 768px) {
+  body::before {
+    background-image: url("/leaf-bg-mobile.png"); /* mobile image */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -240,19 +258,7 @@ h1, h2, h3, h4, h5, h6 {
   top: 100px;
 }
 
-/* -----------------------------
-   MOBILE FIXES (Option B)
-   ----------------------------- */
 @media (max-width: 768px) {
-  /* Use a separate background image designed for mobile */
-  body {
-    background-attachment: scroll;
-    background-image: url('/leaf-bg-mobile.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center top;
-  }
-
   .product-detail-media {
     position: relative;
     top: auto;
@@ -260,18 +266,21 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* -----------------------------
-   CENTER ICONS in "Why Choose"
-   (Fix icons going to corner)
-   -----------------------------
-   This works if your icons are SVGs/images inside those blocks.
-   If still not fixed, tell me the component file and I’ll target the exact class.
-*/
+/* ✅ MOBILE: center icons in “Why Choose” section
+   IMPORTANT: Add className="why-choose" on that section in your React component */
 @media (max-width: 768px) {
   .why-choose svg,
-  .why-choose img {
+  .why-choose img,
+  .why-choose .icon,
+  .why-choose .feature-icon {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
+  }
+
+  .why-choose .icon-wrap,
+  .why-choose .feature-icon-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

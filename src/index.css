@@ -62,17 +62,16 @@ body {
   line-height: 1.6;
 }
 
-/* MOBILE BACKGROUND FIX */
+/* MOBILE BACKGROUND */
 @media (max-width: 768px) {
   body {
+    background-image: url('/leaf-bg-mobile.png');
+
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+
     background-attachment: scroll;
-
-    /* Show full leaf design */
-    background-size: contain;
-    background-position: top center;
-
-    /* keep luxury background color */
-    background-color: #fffef2;
   }
 }
 

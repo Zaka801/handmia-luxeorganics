@@ -35,8 +35,7 @@ export const Navbar = () => {
           <span className="promo-sep">•</span>
           <span className="promo-item">Bundle Offer: Any 3 soaps for PKR 1200 (was 1350)</span>
           <span className="promo-sep">•</span>
-          <span className="promo-item">Order on WhatsApp • Pakistan Delivery</span>
-          <span className="promo-sep">•</span>
+          
 
           {/* duplicate for seamless loop */}
           <span className="promo-item">Flat 50% OFF • PKR 900 → PKR 450</span>

@@ -15,7 +15,7 @@ export const productsData = [
       'Antioxidant support for a healthier-looking glow'
     ],
     howToUse:
-      'Wet skin with water. Lather the soap between hands and apply gently on face/body. Massage for 20–30 seconds, then rinse well. Use daily and follow with moisturizer. Always wear sunscreen in daytime for best results.',
+      'Wet skin with water. Lather the soap between hands and apply gently on face/body. Massage for 2-3 mins, then rinse well. Use daily and follow with moisturizer. Always wear sunscreen in daytime for best results.',
     goodFor:
       'Normal to oily skin, uneven tone, and the appearance of dark spots. If you have very sensitive skin, patch test first.'
   },

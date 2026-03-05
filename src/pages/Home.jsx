@@ -73,7 +73,7 @@ export const Home = () => {
           }}>
             🔥 <strong>Flat 50% OFF</strong> on all soaps (PKR <s>900</s> → <strong>450</strong>)  
             <br />
-            🎁 Bundle Offer: <strong>Any 3 soaps only PKR 1200</strong> (instead of 1350)
+            🎁 Bundle Offer: <strong>Any 3 soaps only PKR 1200</strong> (instead of 2700)
           </div>
 
         </div>

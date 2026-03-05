@@ -3,14 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 export const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Products', path: '/products' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
+  const links = [
+    { to: '/', label: 'Home' },
+    { to: '/products', label: 'Products' },
+    { to: '/about', label: 'About' },
+    { to: '/contact', label: 'Contact' },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -20,7 +20,7 @@ export const Navbar = () => {
       style={{
         background: 'var(--bg-primary)',
         borderBottom: '1px solid var(--border-light)',
-        padding: '20px 0',
+        padding: 0,
         position: 'sticky',
         top: 0,
         zIndex: 100,
@@ -28,122 +28,172 @@ export const Navbar = () => {
         backgroundColor: 'rgba(255, 254, 242, 0.95)',
       }}
     >
+      {/* Promo ticker */}
+      <div className="promo-bar" aria-label="Promotion">
+        <div className="promo-track">
+          <span className="promo-item">Flat 50% OFF • PKR 900 → PKR 450</span>
+          <span className="promo-sep">•</span>
+          <span className="promo-item">Bundle Offer: Any 3 soaps for PKR 1200 (was 1350)</span>
+          <span className="promo-sep">•</span>
+          <span className="promo-item">Order on WhatsApp • Pakistan Delivery</span>
+          <span className="promo-sep">•</span>
+
+          {/* duplicate for seamless loop */}
+          <span className="promo-item">Flat 50% OFF • PKR 900 → PKR 450</span>
+          <span className="promo-sep">•</span>
+          <span className="promo-item">Bundle Offer: Any 3 soaps for PKR 1200 (was 1350)</span>
+          <span className="promo-sep">•</span>
+          <span className="promo-item">Order on WhatsApp • Pakistan Delivery</span>
+          <span className="promo-sep">•</span>
+        </div>
+      </div>
+
       <div
         className="container"
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 0' }}
       >
         {/* Logo */}
-        <Link
-          to="/"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            fontSize: '24px',
-            fontWeight: '600',
-            fontFamily: "'Playfair Display', serif",
-            color: 'var(--text-primary)',
-            textDecoration: 'none',
-            letterSpacing: '1px',
-          }}
-        >
-          <img src="/images/logo.png" alt="H & Mia" style={{ width: '36px', height: '36px' }} />
-          H & Mia
+        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <img
+              src="/images/logo.png"
+              alt="H & Mia"
+              style={{ width: '44px', height: '44px', borderRadius: '50%' }}
+            />
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '28px', fontWeight: 600 }}>
+              H & Mia
+            </div>
+          </div>
         </Link>
 
-        {/* Desktop Navigation */}
-        <ul
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '40px',
-            listStyle: 'none',
-            margin: 0,
-            padding: 0,
-          }}
-          className="desktop-nav"
-        >
-          {navLinks.map((link) => (
-            <li key={link.path}>
-              <Link
-                to={link.path}
-                style={{
-                  color: 'var(--text-primary)',
-                  textDecoration: 'none',
-                  fontSize: '15px',
-                  fontWeight: '500',
-                  fontFamily: "'Montserrat', sans-serif",
-                  padding: '8px 0',
-                  position: 'relative',
-                  transition: 'all 0.3s ease',
-                  borderBottom: isActive(link.path)
-                    ? '2px solid var(--text-primary)'
-                    : '2px solid transparent',
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive(link.path)) e.currentTarget.style.borderBottom = '2px solid var(--text-primary)';
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive(link.path)) e.currentTarget.style.borderBottom = '2px solid transparent';
-                }}
-              >
-                {link.name}
-              </Link>
-            </li>
+        {/* Desktop nav */}
+        <div className="desktop-nav" style={{ display: 'flex', gap: '34px', alignItems: 'center' }}>
+          {links.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              className="nav-link"
+              style={{
+                textDecoration: 'none',
+                color: isActive(l.to) ? 'var(--text-primary)' : 'var(--text-secondary)',
+                position: 'relative',
+                paddingBottom: '6px',
+              }}
+            >
+              {l.label}
+              {isActive(l.to) && (
+                <span
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    bottom: 0,
+                    width: '100%',
+                    height: '2px',
+                    background: 'var(--text-primary)',
+                  }}
+                />
+              )}
+            </Link>
           ))}
-        </ul>
+        </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile menu button */}
         <button
-          onClick={() => setIsOpen(!isOpen)}
-          style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: '8px' }}
           className="mobile-menu-btn"
+          onClick={() => setIsMobileOpen((s) => !s)}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'none',
+            padding: 8,
+          }}
           aria-label="Toggle menu"
         >
-          {isOpen ? <X size={24} color="var(--text-primary)" /> : <Menu size={24} color="var(--text-primary)" />}
+          {isMobileOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
+      {/* Mobile nav */}
+      {isMobileOpen && (
         <div
+          className="mobile-nav"
           style={{
             display: 'none',
-            padding: '20px 0',
-            borderTop: '1px solid var(--border-light)',
-            marginTop: '20px',
+            padding: '10px 16px 18px',
+            borderTop: '1px solid rgba(51,51,51,0.08)',
+            background: 'rgba(255, 254, 242, 0.98)',
           }}
-          className="mobile-nav"
         >
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {navLinks.map((link) => (
-              <li key={link.path} style={{ marginBottom: '16px' }}>
-                <Link
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  style={{
-                    color: 'var(--text-primary)',
-                    textDecoration: 'none',
-                    fontSize: '16px',
-                    fontWeight: isActive(link.path) ? '600' : '500',
-                    fontFamily: "'Montserrat', sans-serif",
-                    display: 'block',
-                    padding: '12px 40px',
-                  }}
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {links.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              onClick={() => setIsMobileOpen(false)}
+              style={{
+                display: 'block',
+                padding: '12px 8px',
+                textDecoration: 'none',
+                color: isActive(l.to) ? 'var(--text-primary)' : 'var(--text-secondary)',
+                fontFamily: 'Montserrat, sans-serif',
+                textTransform: 'uppercase',
+                letterSpacing: '0.6px',
+                fontSize: 14,
+              }}
+            >
+              {l.label}
+            </Link>
+          ))}
         </div>
       )}
 
       <style>{`
+        .promo-bar {
+          background: var(--gold-medium);
+          color: #fff;
+          height: 34px;
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+          border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .promo-track {
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          white-space: nowrap;
+          will-change: transform;
+          animation: promo-marquee 18s linear infinite;
+          padding-left: 100%;
+        }
+
+        .promo-item {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 12px;
+          letter-spacing: 0.6px;
+          text-transform: uppercase;
+        }
+
+        .promo-sep { opacity: 0.9; }
+
+        @keyframes promo-marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-100%); }
+        }
+
+        .nav-link {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 14px;
+          letter-spacing: 0.6px;
+          text-transform: uppercase;
+        }
+
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
           .mobile-menu-btn { display: block !important; }
           .mobile-nav { display: block !important; }
+          .promo-track { animation-duration: 22s; }
         }
       `}</style>
     </nav>

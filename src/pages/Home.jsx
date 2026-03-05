@@ -30,38 +30,63 @@ export const Home = () => {
 
   return (
     <div>
+
       {/* Hero */}
       <section style={{
         backgroundImage:
           "linear-gradient(rgba(255,254,242,0.88), rgba(246,245,232,0.92)), url('/images/hero.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        padding: '120px 0 100px', textAlign: 'center' }}>
+        padding: '120px 0 100px',
+        textAlign: 'center'
+      }}>
         <div className="container">
+
           <h1 className="hero-large" style={{ marginBottom: '24px', maxWidth: '900px', margin: '0 auto 24px' }}>
             Pure Ingredients. Visible Results.<br />Everyday Luxury.
           </h1>
+
           <p className="body-large" style={{ maxWidth: '700px', margin: '0 auto 40px', color: 'var(--text-secondary)' }}>
             Premium handmade soaps crafted for glow, calm, and gentle care.
           </p>
+
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/products" className="btn-primary">
               Explore Products <ArrowRight size={18} />
             </Link>
+
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="btn-gold">
               <MessageCircle size={18} />
               Order on WhatsApp
             </a>
           </div>
+
+          {/* NEW OFFER BAR */}
+          <div style={{
+            marginTop: "30px",
+            display: "inline-block",
+            padding: "12px 20px",
+            border: "1px solid var(--gold-medium)",
+            background: "rgba(255,254,242,0.9)",
+            fontFamily: "Montserrat, sans-serif",
+            letterSpacing: "0.5px"
+          }}>
+            🔥 <strong>Flat 50% OFF</strong> on all soaps (PKR <s>900</s> → <strong>450</strong>)  
+            <br />
+            🎁 Bundle Offer: <strong>Any 3 soaps only PKR 1200</strong> (instead of 1350)
+          </div>
+
         </div>
       </section>
 
-      {/* Why */}
-      <section className="section-padding" style={{ background: 'var(--bg-primary)' }}>
+      {/* Why Choose */}
+      <section className="section-padding why-choose" style={{ background: 'var(--bg-primary)' }}>
         <div className="container">
+
           <h2 className="heading-1" style={{ textAlign: 'center', marginBottom: '60px' }}>
             Why Choose H & Mia
           </h2>
+
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '40px' }}>
             {benefits.map((b, i) => (
               <div key={i} style={{ textAlign: 'center', padding: '32px 20px' }}>
@@ -71,23 +96,35 @@ export const Home = () => {
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* Featured */}
+      {/* Featured Products */}
       <section className="section-padding" style={{ background: 'var(--bg-secondary)' }}>
         <div className="container">
+
           <h2 className="heading-1" style={{ textAlign: 'center', marginBottom: '60px' }}>
             Our Signature Collection
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', marginBottom: '40px' }}>
-            {productsData.map((p) => <ProductCard key={p.id} product={p} />)}
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '32px',
+            marginBottom: '40px'
+          }}>
+            {productsData.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
           </div>
+
           <div style={{ textAlign: 'center' }}>
             <Link to="/products" className="btn-secondary">
               View All Products <ArrowRight size={16} />
             </Link>
           </div>
+
         </div>
       </section>
 

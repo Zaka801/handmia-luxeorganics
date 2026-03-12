@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://handmia-luxeorganics.com/sitemap.xml

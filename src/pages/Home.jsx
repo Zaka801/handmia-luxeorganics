@@ -73,7 +73,7 @@ export const Home = () => {
           }}>
             🔥 <strong>Flat 30% OFF</strong> on all soaps (PKR <s>900</s> → <strong>620</strong>)  
             <br />
-            🎁 Special Offer: <strong>Buy any 3 soaps & get FREE Delivery
+            🎁 <strong>Special Offer:</strong> Buy any 3 soaps &amp; get <strong>FREE Delivery</strong>
           </div>
 
         </div>

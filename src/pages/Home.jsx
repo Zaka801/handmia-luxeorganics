@@ -71,9 +71,9 @@ export const Home = () => {
             fontFamily: "Montserrat, sans-serif",
             letterSpacing: "0.5px"
           }}>
-            🔥 <strong>Flat 50% OFF</strong> on all soaps (PKR <s>900</s> → <strong>450</strong>)  
+            🔥 <strong>Flat 30% OFF</strong> on all soaps (PKR <s>900</s> → <strong>620</strong>)  
             <br />
-            🎁 Ramadan Offer: <strong>Any 3 soaps only PKR 1200</strong> (instead of 2700)
+            🎁 Special Offer: <strong>Buy any 3 soaps & get FREE Delivery
           </div>
 
         </div>

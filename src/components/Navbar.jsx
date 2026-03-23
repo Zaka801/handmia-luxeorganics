@@ -31,20 +31,20 @@ export const Navbar = () => {
       {/* Promo ticker */}
       <div className="promo-bar" aria-label="Promotion">
         <div className="promo-track">
-          <span className="promo-item">Flat 50% OFF • PKR 900 → PKR 450</span>
+          <span className="promo-item">Flat 30% OFF • PKR 900 → PKR 620</span>
           <span className="promo-sep">•</span>
-          <span className="promo-item">Flat 50% OFF • PKR 900 → PKR 450</span>
+          <span className="promo-item">Flat 30% OFF • PKR 900 → PKR 620</span>
           <span className="promo-sep">•</span>
-          <span className="promo-item">Ramadan Offer: Any 3 soaps for PKR 1200 (was 2700)</span>
+          <span className="promo-item">Special Offer: Buy any 3 soaps & get FREE Delivery</span>
           <span className="promo-sep">•</span>
           
 
           {/* duplicate for seamless loop */}
-          <span className="promo-item">Flat 50% OFF • PKR 900 → PKR 450</span>
+          <span className="promo-item">Flat 30% OFF • PKR 900 → PKR 620</span>
           <span className="promo-sep">•</span>
-          <span className="promo-item">Flat 50% OFF • PKR 900 → PKR 450</span>
+          <span className="promo-item">Flat 30% OFF • PKR 900 → PKR 620</span>
           <span className="promo-sep">•</span>
-          <span className="promo-item">Ramadan Offer: Any 3 soaps for PKR 1200 (was 2700)</span>
+          <span className="promo-item">Special Offer: Buy any 3 soaps & get FREE Delivery</span>
           <span className="promo-sep">•</span>
           
         </div>

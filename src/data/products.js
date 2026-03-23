@@ -2,7 +2,7 @@ export const productsData = [
   {
     id: 'whitening-soap',
     name: 'Whitening Soap',
-    price: 450,
+    price: 620,
     oldPrice: 900,
     shortDescription:
       'A brightening-focused bar made with kojic acid, glutathione, and alpha arbutin to help your skin look more even-toned, fresh, and radiant.',
@@ -22,7 +22,7 @@ export const productsData = [
   {
     id: 'collagen-booster-soap',
     name: 'Collagen Booster Soap',
-    price: 450,
+    price: 620,
     oldPrice: 900,
     shortDescription:
       'Rosehip oil + vitamin E in a nourishing, luxurious bar that helps skin feel smoother, softer, and more supple-looking.',
@@ -42,7 +42,7 @@ export const productsData = [
   {
     id: 'baby-kitty-soap',
     name: 'Baby Kitty Soap',
-    price: 450,
+    price: 620,
     oldPrice: 900,
     shortDescription:
       'A gentle, family-friendly formula enriched with natural oils to keep delicate skin feeling clean, soft, and comfortable.',
@@ -62,7 +62,7 @@ export const productsData = [
   {
     id: 'baby-bear-soap',
     name: 'Baby Bear Soap',
-    price: 450,
+    price: 620,
     oldPrice: 900,
     shortDescription:
       'Tender care for delicate skin—infused with neem, aloe vera, and vitamin E for a gentle cleanse and a comfortable after-feel.',
@@ -82,7 +82,7 @@ export const productsData = [
   {
     id: 'stress-relief-soap-heart',
     name: 'Stress Relief Soap (Heart)',
-    price: 450,
+    price: 620,
     oldPrice: 900,
     shortDescription:
       'A calming lavender-inspired bar with a cozy aroma—made for relaxing showers and a softer, more comfortable skin feel.',
@@ -102,7 +102,7 @@ export const productsData = [
   {
     id: 'stress-relief-soap-grapes',
     name: 'Stress Relief Soap (Grapes)',
-    price: 450,
+    price: 620,
     oldPrice: 900,
     shortDescription:
       'The same stress-relief blend in a second premium shape—perfect for gifting, self-care routines, and everyday softness.',

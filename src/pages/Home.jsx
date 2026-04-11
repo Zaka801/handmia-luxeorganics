@@ -71,7 +71,7 @@ export const Home = () => {
             fontFamily: "Montserrat, sans-serif",
             letterSpacing: "0.5px"
           }}>
-            🔥 <strong>Flat 30% OFF</strong> on all soaps (PKR <s>900</s> → <strong>620</strong>)  
+            🔥 <strong>Flat 25% OFF</strong> on all soaps (PKR <s>1000</s> → <strong>750</strong>)  
             <br />
             🎁 <strong>Special Offer:</strong> Buy any 3 soaps &amp; get <strong>FREE Delivery</strong>
           </div>

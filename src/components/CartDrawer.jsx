@@ -36,11 +36,46 @@ export const CartDrawer = () => {
     setSaveNote('');
   }, [delivery]);
 
+  useEffect(() => {
+    if (!isCartOpen || typeof window === 'undefined' || !window.visualViewport) return undefined;
+
+    const root = document.documentElement;
+    const syncCartViewport = () => {
+      const nextHeight = Math.min(window.visualViewport.height, window.innerHeight);
+      root.style.setProperty('--cart-visual-height', `${nextHeight}px`);
+      root.style.setProperty('--cart-visual-top', `${window.visualViewport.offsetTop || 0}px`);
+    };
+
+    syncCartViewport();
+    window.visualViewport.addEventListener('resize', syncCartViewport);
+    window.visualViewport.addEventListener('scroll', syncCartViewport);
+    window.addEventListener('resize', syncCartViewport);
+    window.addEventListener('orientationchange', syncCartViewport);
+
+    return () => {
+      window.visualViewport.removeEventListener('resize', syncCartViewport);
+      window.visualViewport.removeEventListener('scroll', syncCartViewport);
+      window.removeEventListener('resize', syncCartViewport);
+      window.removeEventListener('orientationchange', syncCartViewport);
+      root.style.removeProperty('--cart-visual-height');
+      root.style.removeProperty('--cart-visual-top');
+    };
+  }, [isCartOpen]);
+
   const whatsappUrl = useMemo(() => {
     if (!invoice) return '';
 
     return buildWhatsAppUrl(buildInvoiceMessage(invoice));
   }, [invoice]);
+
+  const keepFocusedFieldVisible = (event) => {
+    const target = event.target;
+    if (!target || !['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
+
+    window.setTimeout(() => {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    }, 180);
+  };
 
   const handleCheckout = async () => {
     if (!isAuthenticated) {
@@ -131,110 +166,114 @@ export const CartDrawer = () => {
 
         {!!items.length && (
           <div className="cart-footer">
-            <div className="cart-summary">
-              <div>
-                <span>Subtotal</span>
-                <strong>{formatPKR(subtotal)}</strong>
-              </div>
-              <div>
-                <span>Delivery</span>
-                <strong>{itemCount >= 3 ? 'Free' : 'Confirm on WhatsApp'}</strong>
-              </div>
-            </div>
-
-            {!isAuthenticated && (
-              <div className="notice">
-                Please sign in before checkout so your invoice can be connected to your account.
-              </div>
-            )}
-
-            {isAuthenticated && (
-              <div className="delivery-form" aria-label="Delivery details">
-                <div className="delivery-form-head">
-                  <strong>Delivery details</strong>
-                  <span>Required for invoice</span>
+            <div className="checkout-scroll">
+              <div className="cart-summary">
+                <div>
+                  <span>Subtotal</span>
+                  <strong>{formatPKR(subtotal)}</strong>
                 </div>
-                <div className="delivery-field-grid">
+                <div>
+                  <span>Delivery</span>
+                  <strong>{itemCount >= 3 ? 'Free' : 'Confirm on WhatsApp'}</strong>
+                </div>
+              </div>
+
+              {!isAuthenticated && (
+                <div className="notice">
+                  Please sign in before checkout so your invoice can be connected to your account.
+                </div>
+              )}
+
+              {isAuthenticated && (
+                <div className="delivery-form" aria-label="Delivery details" onFocusCapture={keepFocusedFieldVisible}>
+                  <div className="delivery-form-head">
+                    <strong>Delivery details</strong>
+                    <span>Required for invoice</span>
+                  </div>
+                  <div className="delivery-field-grid">
+                    <label>
+                      <span>Name</span>
+                      <input
+                        name="name"
+                        value={delivery.name}
+                        onChange={(event) => setDelivery((current) => ({ ...current, name: event.target.value }))}
+                        placeholder="Full name"
+                      />
+                    </label>
+                    <label>
+                      <span>Phone</span>
+                      <input
+                        name="phone"
+                        type="tel"
+                        value={delivery.phone}
+                        onChange={(event) => setDelivery((current) => ({ ...current, phone: event.target.value }))}
+                        placeholder="+92 XXX XXXXXXX"
+                      />
+                    </label>
+                  </div>
                   <label>
-                    <span>Name</span>
+                    <span>City</span>
                     <input
-                      name="name"
-                      value={delivery.name}
-                      onChange={(event) => setDelivery((current) => ({ ...current, name: event.target.value }))}
-                      placeholder="Full name"
+                      name="city"
+                      value={delivery.city}
+                      onChange={(event) => setDelivery((current) => ({ ...current, city: event.target.value }))}
+                      placeholder="Delivery city"
                     />
                   </label>
                   <label>
-                    <span>Phone</span>
-                    <input
-                      name="phone"
-                      type="tel"
-                      value={delivery.phone}
-                      onChange={(event) => setDelivery((current) => ({ ...current, phone: event.target.value }))}
-                      placeholder="+92 XXX XXXXXXX"
+                    <span>Full delivery address</span>
+                    <textarea
+                      name="address"
+                      value={delivery.address}
+                      onChange={(event) => setDelivery((current) => ({ ...current, address: event.target.value }))}
+                      placeholder="House, street, area, nearest landmark"
+                      rows="3"
                     />
                   </label>
+                  <label>
+                    <span>Notes</span>
+                    <input
+                      name="notes"
+                      value={delivery.notes}
+                      onChange={(event) => setDelivery((current) => ({ ...current, notes: event.target.value }))}
+                      placeholder="Optional delivery note"
+                    />
+                  </label>
+                  {deliveryError && <div className="notice warning">{deliveryError}</div>}
                 </div>
-                <label>
-                  <span>City</span>
-                  <input
-                    name="city"
-                    value={delivery.city}
-                    onChange={(event) => setDelivery((current) => ({ ...current, city: event.target.value }))}
-                    placeholder="Delivery city"
-                  />
-                </label>
-                <label>
-                  <span>Full delivery address</span>
-                  <textarea
-                    name="address"
-                    value={delivery.address}
-                    onChange={(event) => setDelivery((current) => ({ ...current, address: event.target.value }))}
-                    placeholder="House, street, area, nearest landmark"
-                    rows="3"
-                  />
-                </label>
-                <label>
-                  <span>Notes</span>
-                  <input
-                    name="notes"
-                    value={delivery.notes}
-                    onChange={(event) => setDelivery((current) => ({ ...current, notes: event.target.value }))}
-                    placeholder="Optional delivery note"
-                  />
-                </label>
-                {deliveryError && <div className="notice warning">{deliveryError}</div>}
-              </div>
-            )}
+              )}
 
-            {invoice && (
-              <div className="invoice-preview">
-                <div className="invoice-title">
-                  <ReceiptText size={18} />
-                  <strong>{invoice.invoiceNo}</strong>
+              {invoice && (
+                <div className="invoice-preview">
+                  <div className="invoice-title">
+                    <ReceiptText size={18} />
+                    <strong>{invoice.invoiceNo}</strong>
+                  </div>
+                  <p>
+                    {invoice.itemCount} products, subtotal {formatPKR(invoice.subtotal)}. {invoice.deliveryNote}
+                  </p>
                 </div>
-                <p>
-                  {invoice.itemCount} products, subtotal {formatPKR(invoice.subtotal)}. {invoice.deliveryNote}
-                </p>
-              </div>
-            )}
+              )}
 
-            {saveNote && <div className="notice">{saveNote}</div>}
-
-            <div className="cart-actions">
-              <button className="btn-outline" type="button" onClick={clearCart}>
-                Clear
-              </button>
-              <button className="btn-primary" type="button" onClick={handleCheckout} disabled={isSaving}>
-                {isSaving ? 'Generating...' : invoice ? 'Regenerate invoice' : isAuthenticated ? 'Generate invoice' : 'Sign in'}
-              </button>
+              {saveNote && <div className="notice">{saveNote}</div>}
             </div>
 
-            {invoice && (
-              <a className="btn-whatsapp full-width" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                Send invoice on WhatsApp
-              </a>
-            )}
+            <div className="checkout-actions">
+              <div className="cart-actions">
+                <button className="btn-outline" type="button" onClick={clearCart}>
+                  Clear
+                </button>
+                <button className="btn-primary" type="button" onClick={handleCheckout} disabled={isSaving}>
+                  {isSaving ? 'Generating...' : invoice ? 'Update invoice' : isAuthenticated ? 'Proceed to invoice' : 'Sign in'}
+                </button>
+              </div>
+
+              {invoice && (
+                <a className="btn-whatsapp full-width" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                  Send invoice on WhatsApp
+                </a>
+              )}
+            </div>
           </div>
         )}
       </aside>

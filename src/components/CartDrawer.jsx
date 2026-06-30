@@ -10,6 +10,8 @@ import { formatPKR } from '../utils/money';
 export const CartDrawer = () => {
   const { clearCart, closeCart, isCartOpen, itemCount, items, removeItem, subtotal, updateQuantity } = useCart();
   const { isAuthenticated, openAuth, user } = useAuth();
+  const [delivery, setDelivery] = useState({ address: '', city: '', name: '', notes: '', phone: '' });
+  const [deliveryError, setDeliveryError] = useState('');
   const [invoice, setInvoice] = useState(null);
   const [isSaving, setSaving] = useState(false);
   const [saveNote, setSaveNote] = useState('');
@@ -18,6 +20,21 @@ export const CartDrawer = () => {
     setInvoice(null);
     setSaveNote('');
   }, [items]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    setDelivery((current) => ({
+      ...current,
+      name: current.name || user.user_metadata?.name || user.email?.split('@')[0] || '',
+      phone: current.phone || user.user_metadata?.phone || '',
+    }));
+  }, [user]);
+
+  useEffect(() => {
+    setInvoice(null);
+    setSaveNote('');
+  }, [delivery]);
 
   const whatsappUrl = useMemo(() => {
     if (!invoice) return '';
@@ -31,7 +48,16 @@ export const CartDrawer = () => {
       return;
     }
 
-    const nextInvoice = buildInvoice({ items, user });
+    const requiredFields = ['name', 'phone', 'city', 'address'];
+    const hasMissingField = requiredFields.some((field) => !delivery[field].trim());
+
+    if (hasMissingField) {
+      setDeliveryError('Please add your name, phone, city, and delivery address before checkout.');
+      return;
+    }
+
+    setDeliveryError('');
+    const nextInvoice = buildInvoice({ delivery, items, user });
     setInvoice(nextInvoice);
     setSaving(true);
     setSaveNote('');
@@ -119,6 +145,65 @@ export const CartDrawer = () => {
             {!isAuthenticated && (
               <div className="notice">
                 Please sign in before checkout so your invoice can be connected to your account.
+              </div>
+            )}
+
+            {isAuthenticated && (
+              <div className="delivery-form" aria-label="Delivery details">
+                <div className="delivery-form-head">
+                  <strong>Delivery details</strong>
+                  <span>Required for invoice</span>
+                </div>
+                <div className="delivery-field-grid">
+                  <label>
+                    <span>Name</span>
+                    <input
+                      name="name"
+                      value={delivery.name}
+                      onChange={(event) => setDelivery((current) => ({ ...current, name: event.target.value }))}
+                      placeholder="Full name"
+                    />
+                  </label>
+                  <label>
+                    <span>Phone</span>
+                    <input
+                      name="phone"
+                      type="tel"
+                      value={delivery.phone}
+                      onChange={(event) => setDelivery((current) => ({ ...current, phone: event.target.value }))}
+                      placeholder="+92 XXX XXXXXXX"
+                    />
+                  </label>
+                </div>
+                <label>
+                  <span>City</span>
+                  <input
+                    name="city"
+                    value={delivery.city}
+                    onChange={(event) => setDelivery((current) => ({ ...current, city: event.target.value }))}
+                    placeholder="Delivery city"
+                  />
+                </label>
+                <label>
+                  <span>Full delivery address</span>
+                  <textarea
+                    name="address"
+                    value={delivery.address}
+                    onChange={(event) => setDelivery((current) => ({ ...current, address: event.target.value }))}
+                    placeholder="House, street, area, nearest landmark"
+                    rows="3"
+                  />
+                </label>
+                <label>
+                  <span>Notes</span>
+                  <input
+                    name="notes"
+                    value={delivery.notes}
+                    onChange={(event) => setDelivery((current) => ({ ...current, notes: event.target.value }))}
+                    placeholder="Optional delivery note"
+                  />
+                </label>
+                {deliveryError && <div className="notice warning">{deliveryError}</div>}
               </div>
             )}
 

@@ -5,6 +5,9 @@ create table if not exists public.orders (
   customer_name text not null,
   customer_email text,
   customer_phone text,
+  delivery_address text,
+  delivery_city text,
+  delivery_notes text,
   items jsonb not null,
   item_count integer not null,
   subtotal integer not null,
@@ -14,6 +17,10 @@ create table if not exists public.orders (
   whatsapp_message text,
   created_at timestamptz not null default now()
 );
+
+alter table public.orders add column if not exists delivery_address text;
+alter table public.orders add column if not exists delivery_city text;
+alter table public.orders add column if not exists delivery_notes text;
 
 alter table public.orders enable row level security;
 

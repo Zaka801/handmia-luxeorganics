@@ -14,11 +14,18 @@ const getCustomerName = (user) => {
   return user?.email?.split('@')[0] || 'Customer';
 };
 
-export const buildInvoice = ({ items, user }) => {
+export const buildInvoice = ({ delivery, items, user }) => {
   const invoiceNo = createInvoiceNumber();
   const quantity = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const freeDelivery = quantity >= 3;
+  const deliveryDetails = {
+    address: delivery?.address?.trim() || '',
+    city: delivery?.city?.trim() || '',
+    name: delivery?.name?.trim() || getCustomerName(user),
+    notes: delivery?.notes?.trim() || '',
+    phone: delivery?.phone?.trim() || user?.user_metadata?.phone || '',
+  };
 
   return {
     invoiceNo,
@@ -26,9 +33,10 @@ export const buildInvoice = ({ items, user }) => {
     customer: {
       id: user?.id || null,
       email: user?.email || '',
-      name: getCustomerName(user),
-      phone: user?.user_metadata?.phone || '',
+      name: deliveryDetails.name,
+      phone: deliveryDetails.phone,
     },
+    delivery: deliveryDetails,
     items: items.map((item) => ({
       id: item.id,
       name: item.name,
@@ -63,6 +71,9 @@ export const buildInvoiceMessage = (invoice) => {
     `Customer: ${invoice.customer.name}`,
     invoice.customer.email ? `Email: ${invoice.customer.email}` : '',
     invoice.customer.phone ? `Phone: ${invoice.customer.phone}` : '',
+    invoice.delivery.address ? `Delivery address: ${invoice.delivery.address}` : '',
+    invoice.delivery.city ? `City: ${invoice.delivery.city}` : '',
+    invoice.delivery.notes ? `Delivery notes: ${invoice.delivery.notes}` : '',
     '',
     'Selected items:',
     itemLines,
@@ -85,6 +96,9 @@ export const toSupabaseOrderPayload = (invoice) => ({
   customer_name: invoice.customer.name,
   customer_email: invoice.customer.email,
   customer_phone: invoice.customer.phone,
+  delivery_address: invoice.delivery.address,
+  delivery_city: invoice.delivery.city,
+  delivery_notes: invoice.delivery.notes,
   items: invoice.items,
   item_count: invoice.itemCount,
   subtotal: invoice.subtotal,

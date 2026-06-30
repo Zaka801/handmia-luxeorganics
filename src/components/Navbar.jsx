@@ -25,10 +25,15 @@ export const Navbar = () => {
 
   return (
     <header className="site-header">
-      <div className="promo-bar">
-        <span>Launch edit: 25% off all soap bars</span>
-        <span>Complimentary delivery on 3 or more soaps</span>
-        <span>Personal invoice checkout on WhatsApp</span>
+      <div className="promo-bar" aria-label="Promotion">
+        <div className="promo-track">
+          <span>Launch edit: 25% off all soap bars</span>
+          <span>Complimentary delivery on 3 or more soaps</span>
+          <span>Personal invoice checkout on WhatsApp</span>
+          <span aria-hidden="true">Launch edit: 25% off all soap bars</span>
+          <span aria-hidden="true">Complimentary delivery on 3 or more soaps</span>
+          <span aria-hidden="true">Personal invoice checkout on WhatsApp</span>
+        </div>
       </div>
 
       <nav className="nav-shell" aria-label="Primary navigation">

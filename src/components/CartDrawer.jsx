@@ -73,8 +73,28 @@ export const CartDrawer = () => {
     if (!target || !['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
 
     window.setTimeout(() => {
-      target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-    }, 180);
+      const scrollHost = target.closest('.checkout-scroll');
+      if (!scrollHost) return;
+
+      const targetRect = target.getBoundingClientRect();
+      const hostRect = scrollHost.getBoundingClientRect();
+      const breathingRoom = 18;
+
+      if (targetRect.top < hostRect.top + breathingRoom) {
+        scrollHost.scrollBy({
+          top: targetRect.top - hostRect.top - breathingRoom,
+          behavior: 'smooth',
+        });
+        return;
+      }
+
+      if (targetRect.bottom > hostRect.bottom - breathingRoom) {
+        scrollHost.scrollBy({
+          top: targetRect.bottom - hostRect.bottom + breathingRoom,
+          behavior: 'smooth',
+        });
+      }
+    }, 260);
   };
 
   const handleCheckout = async () => {

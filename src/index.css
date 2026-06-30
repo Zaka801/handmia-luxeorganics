@@ -330,6 +330,7 @@ main {
 .brand-link {
   align-items: center;
   display: inline-flex;
+  flex: 0 0 auto;
   gap: 10px;
   text-decoration: none;
 }
@@ -347,6 +348,8 @@ main {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 26px;
   font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .desktop-nav,
@@ -1871,16 +1874,26 @@ main {
   }
 
   .brand-link span {
-    font-size: 22px;
+    font-size: 21px;
   }
 
   .brand-link img {
-    height: 40px;
-    width: 40px;
+    height: 38px;
+    width: 38px;
   }
 
   .nav-shell {
+    gap: 8px;
     min-height: 66px;
+  }
+
+  .brand-link {
+    gap: 7px;
+  }
+
+  .nav-actions {
+    flex: 0 0 auto;
+    gap: 8px;
   }
 
   .promo-bar {
@@ -1913,10 +1926,17 @@ main {
   }
 
   .account-button {
-    padding: 0 10px;
+    height: 44px;
+    justify-content: center;
+    padding: 0;
+    width: 44px;
   }
 
   .account-button span {
+    display: none;
+  }
+
+  .account-button svg:last-child:not(:first-child) {
     display: none;
   }
 
@@ -1987,7 +2007,7 @@ main {
 
   .cart-drawer {
     border-left: 0;
-    grid-template-rows: auto minmax(116px, 30dvh) minmax(0, 1fr);
+    grid-template-rows: auto minmax(96px, 22dvh) minmax(0, 1fr);
     height: var(--cart-visual-height, 100dvh);
     max-height: var(--cart-visual-height, 100dvh);
     max-width: none;
@@ -1995,15 +2015,17 @@ main {
   }
 
   .cart-head {
-    padding: 18px;
+    padding: 14px 18px;
   }
 
   .cart-head h2 {
-    font-size: 34px;
+    font-size: 27px;
+    margin-top: 2px;
   }
 
   .cart-body {
-    padding: 12px 18px;
+    gap: 8px;
+    padding: 8px 18px;
   }
 
   .cart-footer {
@@ -2011,7 +2033,7 @@ main {
   }
 
   .checkout-scroll {
-    padding: 14px 18px 8px;
+    padding: 10px 18px 8px;
   }
 
   .checkout-actions {
@@ -2019,7 +2041,36 @@ main {
   }
 
   .cart-line {
-    grid-template-columns: 76px 1fr;
+    gap: 10px;
+    grid-template-columns: 68px 1fr;
+    padding: 8px;
+  }
+
+  .cart-line img {
+    height: 76px;
+    width: 68px;
+  }
+
+  .cart-line-info h3 {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .cart-line-info p {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .cart-line .quantity-stepper {
+    height: 34px;
+  }
+
+  .cart-line .quantity-stepper button {
+    width: 34px;
+  }
+
+  .cart-line .quantity-stepper span {
+    min-width: 36px;
   }
 
   .cart-line-total {
@@ -2032,6 +2083,33 @@ main {
   .cart-actions {
     display: grid;
     grid-template-columns: 0.8fr 1.2fr;
+  }
+
+  .delivery-form {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .delivery-form-head strong {
+    font-size: 13px;
+  }
+
+  .delivery-form-head span {
+    font-size: 10px;
+  }
+
+  .delivery-form label {
+    gap: 4px;
+  }
+
+  .delivery-form input,
+  .delivery-form textarea {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .delivery-form textarea {
+    min-height: 76px;
   }
 
   .delivery-field-grid {
@@ -2069,21 +2147,45 @@ main {
 
 @media (max-width: 680px) and (max-height: 680px) {
   .cart-drawer {
-    grid-template-rows: auto minmax(92px, 24dvh) minmax(0, 1fr);
+    grid-template-rows: auto minmax(78px, 18dvh) minmax(0, 1fr);
+  }
+
+  .cart-head {
+    padding-block: 12px;
   }
 
   .cart-head h2 {
-    font-size: 30px;
+    font-size: 23px;
   }
 
   .cart-body {
-    padding-block: 10px;
+    padding-block: 6px;
+  }
+
+  .cart-line {
+    grid-template-columns: 58px 1fr;
+    padding: 7px;
+  }
+
+  .cart-line img {
+    height: 64px;
+    padding: 5px;
+    width: 58px;
+  }
+
+  .checkout-scroll {
+    padding-top: 8px;
   }
 }
 
 @media (max-width: 380px) {
   .brand-link span {
-    font-size: 20px;
+    font-size: 19px;
+  }
+
+  .brand-link img {
+    height: 36px;
+    width: 36px;
   }
 
   .promo-bar {
@@ -2091,8 +2193,10 @@ main {
   }
 
   .cart-button {
-    min-width: 46px;
-    padding: 0 8px;
+    justify-content: center;
+    min-width: 44px;
+    padding: 0;
+    width: 48px;
   }
 }
 

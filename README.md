@@ -1,55 +1,49 @@
-# H & Mia Luxe Organics Website (React + Vite)
+# H & Mia Luxe Organics
 
-## 1) Run locally
-1. Install Node.js (LTS)
-2. Open this folder in VS Code
-3. Run:
+Premium mobile-first ecommerce site for H & Mia handmade soaps.
+
+## Run Locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the URL shown in the terminal (usually http://localhost:5173).
+Open the local URL printed by Vite.
 
-## 2) Change WhatsApp number (one place)
-Edit:
-`src/config/whatsapp.js`
+## Supabase Setup
 
-## 3) Replace product images
-Right now the project uses placeholders. Later you can replace them by:
-- Putting images in `/public/images/` or `src/assets/`
-- Updating `src/data/products.js`
-- Updating `ProductCard` & `ProductDetail` to use `<img />` tags
+1. Create a Supabase project.
+2. Copy `.env.example` to `.env.local`.
+3. Add your project values:
 
-(Ask ChatGPT and we’ll do it step-by-step.)
+```bash
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
 
-## 4) Deploy (Vercel)
-- Push this repo to GitHub
-- On Vercel: New Project → Import GitHub repo → Deploy
-- This project includes `vercel.json` so React Router pages work on refresh.
+4. In Supabase SQL Editor, run:
 
+```bash
+supabase/orders.sql
+```
 
-## Quick edits (non-technical)
+The cart works in the browser, but live sign-in and order saving require those Supabase values.
 
-### 1) Change Email (Gmail)
-Open: `src/config/contact.js`
-Edit:
-- `CONTACT_EMAIL`
+## Checkout Flow
 
-### 2) Add / Replace Images
-Put your images here:
-- `public/images/`
+- Customers add products to cart.
+- Checkout asks the customer to sign in with Supabase.
+- The site generates an invoice with product names, quantities, prices, delivery note, and total.
+- A WhatsApp button appears with the invoice message prefilled for payment confirmation.
 
-Suggested filenames (you can change them, but keep consistent with `src/data/products.js`):
-- `hero.jpg`
-- `stress-relief-soap.jpg`
-- `collagen-booster-soap.jpg`
-- `baby-bear-soap.jpg`
-- `baby-kitty-soap.jpg`
-- `whitening-soap.jpg`
+## Quick Edits
 
-### 3) Add / Edit Products
-Open: `src/data/products.js`
-Each product has:
-- `name`, `shortDescription`, `ingredients`, `benefits`, `howToUse`, `goodFor`, `image`
+- WhatsApp number: `src/config/whatsapp.js`
+- Email and social links: `src/config/contact.js`
+- Products, pricing, copy, and images: `src/data/products.js`
+- Product images: `public/images/`
+
+## Deploy
+
+Deploy to Vercel and add the same Supabase environment variables in the Vercel project settings.

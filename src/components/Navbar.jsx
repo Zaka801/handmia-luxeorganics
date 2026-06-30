@@ -1,203 +1,89 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { LogOut, Menu, ShoppingBag, User, X } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 export const Navbar = () => {
   const location = useLocation();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const { isAuthenticated, openAuth, signOut, user } = useAuth();
+  const { itemCount, openCart } = useCart();
+
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [location.pathname]);
 
   const links = [
     { to: '/', label: 'Home' },
-    { to: '/products', label: 'Products' },
+    { to: '/products', label: 'Shop' },
     { to: '/about', label: 'About' },
     { to: '/contact', label: 'Contact' },
   ];
 
-  const isActive = (path) => location.pathname === path;
+  const displayName = user?.user_metadata?.name || user?.email?.split('@')[0] || 'Account';
 
   return (
-    <nav
-      style={{
-        background: 'var(--bg-primary)',
-        borderBottom: '1px solid var(--border-light)',
-        padding: 0,
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-        backdropFilter: 'blur(10px)',
-        backgroundColor: 'rgba(255, 254, 242, 0.95)',
-      }}
-    >
-      {/* Promo ticker */}
-      <div className="promo-bar" aria-label="Promotion">
-        <div className="promo-track">
-          <span className="promo-item">Flat 25% OFF • PKR 1000 → PKR 750</span>
-          <span className="promo-sep">•</span>
-          <span className="promo-item">Flat 25% OFF • PKR 1000 → PKR 750</span>
-          <span className="promo-sep">•</span>
-          <span className="promo-item">Special Offer: Buy any 3 soaps & get FREE Delivery</span>
-          <span className="promo-sep">•</span>
-          
-
-          {/* duplicate for seamless loop */}
-          <span className="promo-item">Flat 25% OFF • PKR 1000 → PKR 750</span>
-          <span className="promo-sep">•</span>
-          <span className="promo-item">Flat 25% OFF • PKR 1000 → PKR 750</span>
-          <span className="promo-sep">•</span>
-          <span className="promo-item">Special Offer: Buy any 3 soaps & get FREE Delivery</span>
-          <span className="promo-sep">•</span>
-          
-        </div>
+    <header className="site-header">
+      <div className="promo-bar">
+        <span>Launch edit: 25% off all soap bars</span>
+        <span>Complimentary delivery on 3 or more soaps</span>
+        <span>Personal invoice checkout on WhatsApp</span>
       </div>
 
-      <div
-        className="container"
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 0' }}
-      >
-        {/* Logo */}
-        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <img
-              src="/images/logo.png"
-              alt="H & Mia"
-              style={{ width: '44px', height: '44px', borderRadius: '50%' }}
-            />
-            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '28px', fontWeight: 600 }}>
-              H & Mia
-            </div>
-          </div>
+      <nav className="nav-shell" aria-label="Primary navigation">
+        <Link className="brand-link" to="/" aria-label="H & Mia home">
+          <img src="/images/logo.png" alt="H & Mia" />
+          <span>H & Mia</span>
         </Link>
 
-        {/* Desktop nav */}
-        <div className="desktop-nav" style={{ display: 'flex', gap: '34px', alignItems: 'center' }}>
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className="nav-link"
-              style={{
-                textDecoration: 'none',
-                color: isActive(l.to) ? 'var(--text-primary)' : 'var(--text-secondary)',
-                position: 'relative',
-                paddingBottom: '6px',
-              }}
-            >
-              {l.label}
-              {isActive(l.to) && (
-                <span
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    bottom: 0,
-                    width: '100%',
-                    height: '2px',
-                    background: 'var(--text-primary)',
-                  }}
-                />
-              )}
-            </Link>
+        <div className="desktop-nav">
+          {links.map((link) => (
+            <NavLink key={link.to} to={link.to} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+              {link.label}
+            </NavLink>
           ))}
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          className="mobile-menu-btn"
-          onClick={() => setIsMobileOpen((s) => !s)}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'none',
-            padding: 8,
-          }}
-          aria-label="Toggle menu"
-        >
-          {isMobileOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
+        <div className="nav-actions">
+          {isAuthenticated ? (
+            <button className="account-button" type="button" onClick={signOut} title="Sign out">
+              <User size={18} />
+              <span>{displayName}</span>
+              <LogOut size={16} />
+            </button>
+          ) : (
+            <button className="account-button" type="button" onClick={openAuth}>
+              <User size={18} />
+              <span>Sign in</span>
+            </button>
+          )}
 
-      {/* Mobile nav */}
+          <button className="cart-button" type="button" onClick={openCart} aria-label={`Open cart with ${itemCount} items`}>
+            <ShoppingBag size={20} />
+            <span>{itemCount}</span>
+          </button>
+
+          <button
+            className="icon-button mobile-toggle"
+            type="button"
+            onClick={() => setIsMobileOpen((open) => !open)}
+            aria-label="Toggle menu"
+          >
+            {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </nav>
+
       {isMobileOpen && (
-        <div
-          className="mobile-nav"
-          style={{
-            display: 'none',
-            padding: '10px 16px 18px',
-            borderTop: '1px solid rgba(51,51,51,0.08)',
-            background: 'rgba(255, 254, 242, 0.98)',
-          }}
-        >
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              onClick={() => setIsMobileOpen(false)}
-              style={{
-                display: 'block',
-                padding: '12px 8px',
-                textDecoration: 'none',
-                color: isActive(l.to) ? 'var(--text-primary)' : 'var(--text-secondary)',
-                fontFamily: 'Montserrat, sans-serif',
-                textTransform: 'uppercase',
-                letterSpacing: '0.6px',
-                fontSize: 14,
-              }}
-            >
-              {l.label}
-            </Link>
+        <div className="mobile-nav">
+          {links.map((link) => (
+            <NavLink key={link.to} to={link.to} className={({ isActive }) => `mobile-link ${isActive ? 'active' : ''}`}>
+              {link.label}
+            </NavLink>
           ))}
         </div>
       )}
-
-      <style>{`
-        .promo-bar {
-          background: var(--gold-medium);
-          color: #fff;
-          height: 34px;
-          display: flex;
-          align-items: center;
-          overflow: hidden;
-          border-bottom: 1px solid rgba(0,0,0,0.08);
-        }
-
-        .promo-track {
-          display: inline-flex;
-          align-items: center;
-          gap: 14px;
-          white-space: nowrap;
-          will-change: transform;
-          animation: promo-marquee 18s linear infinite;
-          padding-left: 100%;
-        }
-
-        .promo-item {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 12px;
-          letter-spacing: 0.6px;
-          text-transform: uppercase;
-        }
-
-        .promo-sep { opacity: 0.9; }
-
-        @keyframes promo-marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-100%); }
-        }
-
-        .nav-link {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 14px;
-          letter-spacing: 0.6px;
-          text-transform: uppercase;
-        }
-
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: block !important; }
-          .mobile-nav { display: block !important; }
-          .promo-track { animation-duration: 22s; }
-        }
-      `}</style>
-    </nav>
+    </header>
   );
 };

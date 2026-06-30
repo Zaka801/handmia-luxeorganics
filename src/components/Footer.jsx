@@ -1,165 +1,60 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Mail, Facebook } from 'lucide-react';
-import { CONTACT_EMAIL, INSTAGRAM_URL, FACEBOOK_URL } from '../config/contact';
+import { ExternalLink, Facebook, Instagram, Mail, MessageCircle, Store } from 'lucide-react';
+import { CONTACT_EMAIL, FACEBOOK_URL, INSTAGRAM_URL, WHATSAPP_DISPLAY } from '../config/contact';
+import { DARAZ_STORE_URL } from '../config/site';
 import { WHATSAPP_NUMBER } from '../config/whatsapp';
 
 export const Footer = () => {
   const waLink = `https://wa.me/${WHATSAPP_NUMBER}`;
 
   return (
-    <footer
-      style={{
-        background: 'var(--bg-secondary)',
-        borderTop: '1px solid var(--border-light)',
-        padding: '60px 0 30px',
-      }}
-    >
-      <div className="container">
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '40px',
-            marginBottom: '40px',
-          }}
-        >
-          {/* Brand Section */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-              <img src="/images/logo.png" alt="H & Mia" style={{ width: '44px', height: '44px' }} />
-              <h3
-                style={{
-                  fontSize: '24px',
-                  fontWeight: '600',
-                  fontFamily: "'Playfair Display', serif",
-                  letterSpacing: '1px',
-                  margin: 0,
-                }}
-              >
-                H & Mia
-              </h3>
-            </div>
-
-            <p className="body-small" style={{ marginBottom: '20px', lineHeight: '1.8' }}>
-              Premium handmade soaps crafted with pure ingredients for visible results and everyday luxury.
-            </p>
-
-            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-              <a
-                href={INSTAGRAM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: 'var(--text-primary)', transition: 'all 0.3s ease' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--gold-medium)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-                aria-label="Instagram"
-              >
-                <Instagram size={24} />
-              </a>
-
-              <a
-                href={FACEBOOK_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: 'var(--text-primary)', transition: 'all 0.3s ease' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--gold-medium)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-                aria-label="Facebook"
-              >
-                <Facebook size={24} />
-              </a>
-
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                style={{ color: 'var(--text-primary)', transition: 'all 0.3s ease' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--gold-medium)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-                aria-label="Email"
-              >
-                <Mail size={24} />
-              </a>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4
-              style={{
-                fontSize: '18px',
-                fontWeight: '600',
-                fontFamily: "'Playfair Display', serif",
-                marginBottom: '16px',
-              }}
-            >
-              Quick Links
-            </h4>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {[
-                { to: '/', label: 'Home' },
-                { to: '/products', label: 'Products' },
-                { to: '/about', label: 'About' },
-                { to: '/contact', label: 'Contact' },
-              ].map((x) => (
-                <li key={x.to} style={{ marginBottom: '12px' }}>
-                  <Link
-                    to={x.to}
-                    className="body-small"
-                    style={{ textDecoration: 'none', color: 'var(--text-secondary)', transition: 'color 0.3s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
-                  >
-                    {x.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h4
-              style={{
-                fontSize: '18px',
-                fontWeight: '600',
-                fontFamily: "'Playfair Display', serif",
-                marginBottom: '16px',
-              }}
-            >
-              Get In Touch
-            </h4>
-            <p className="body-small" style={{ marginBottom: '12px' }}>
-              <strong>WhatsApp:</strong>
-              <br />
-              <a
-                href={waLink}
-                style={{ color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.3s ease' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--gold-medium)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
-              >
-                +{WHATSAPP_NUMBER}
-              </a>
-            </p>
-            <p className="body-small">
-              <strong>Email:</strong>
-              <br />
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                style={{ color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.3s ease' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--gold-medium)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
-              >
-                {CONTACT_EMAIL}
-              </a>
-            </p>
+    <footer className="site-footer">
+      <div className="container footer-grid">
+        <div className="footer-brand">
+          <Link className="brand-link" to="/">
+            <img src="/images/logo.png" alt="H & Mia" />
+            <span>H & Mia</span>
+          </Link>
+          <p>Premium handmade soaps crafted with pure ingredients for visible glow, comfort, and everyday luxury.</p>
+          <div className="social-row">
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <Instagram size={22} />
+            </a>
+            <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <Facebook size={22} />
+            </a>
+            <a href={`mailto:${CONTACT_EMAIL}`} aria-label="Email">
+              <Mail size={22} />
+            </a>
           </div>
         </div>
 
-        <div style={{ paddingTop: '30px', borderTop: '1px solid var(--border-light)', textAlign: 'center' }}>
-          <p className="body-small">
-            © {new Date().getFullYear()} H & Mia. All rights reserved. Crafted with care in Pakistan.
-          </p>
+        <div>
+          <h3>Shop</h3>
+          <Link to="/products">All products</Link>
+          <Link to="/about">About H & Mia</Link>
+          <Link to="/contact">Contact</Link>
         </div>
+
+        <div>
+          <h3>Support</h3>
+          <a href={waLink} target="_blank" rel="noopener noreferrer">
+            <MessageCircle size={18} />
+            {WHATSAPP_DISPLAY}
+          </a>
+          <a href={DARAZ_STORE_URL} target="_blank" rel="noopener noreferrer">
+            <Store size={18} />
+            Shop on Daraz
+            <ExternalLink size={14} />
+          </a>
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+          <p>Serving customers across Pakistan.</p>
+        </div>
+      </div>
+
+      <div className="footer-bottom">
+        <span>Copyright {new Date().getFullYear()} H & Mia. All rights reserved.</span>
       </div>
     </footer>
   );
